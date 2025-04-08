@@ -1,0 +1,57 @@
+pplot<-function(data,response,explanatory=NULL,all=TRUE){
+  if(!is.numeric(data[,response])){stop(paste(response," must be numeric",sep=""))}
+  
+  colour<-c("#88001b","#3b0088","#880086","#001b98","#005f88","#008846","#6d8800",
+            "#0e4cd1","#d10e11","#d10e90","#790ed1","#0ec7d1","#bdd10e","#65ec1c",
+            "#aaa6fd","#fdc9a6","#aafda6","#fa850f","#130445","#7e83bf","#6c3e0f",
+            "#0b2d04","#584873","#f99fee","#fff427")
+  
+  if(all){
+    col.names<-colnames(data)
+    for(j in col.names){
+      
+      if(j!=response){
+        if(class(data[,j])=="numeric"){
+          plot(y=data[,response],x=data[,j],xlab=paste(" ",j,sep=""),ylab=paste(" ",response,sep=""),col="red")
+          
+        }
+        if(class(data[,j])!="numeric"){
+          ifelse(nlevels(data[,j])>25,colorer<-rep("#7e83bf",nlevels(data[,j])),colorer<-sample(colour,nlevels(data[,j])))
+          boxplot(data[,response]~data[,j],col=colorer,
+                  xlab=paste(" ",j,sep=""),ylab=paste(" ",response,sep=""),pch=19,cex=1,outcol="black")}
+      }
+    }
+  }
+  
+  if(!all){
+    
+    if(is.null(explanatory)){
+      stop("explanatory must be specified")
+    }
+    
+    if(!is.null(explanatory)){
+      comp<-length(explanatory)
+      col.names<-colnames(data)
+      def.col<-c()
+      for(i in explanatory){
+        ifelse(i %in% col.names, comp<-comp-1,def.col<-c(def.col,i))
+      }
+      
+      if(comp!=0){stop(paste(" unknow column ",def.col,sep="") )}
+      
+      
+      if(comp==0){
+        for(j in explanatory){
+          
+          if(class(data[,j])=="numeric"){
+            plot(y=data[,response],x=data[,j],xlab=paste(" ",j,sep=""),ylab=paste(" ",response,sep=""),col="blue")
+          }
+          if(class(data[,j])!="numeric"){
+            ifelse(nlevels(data[,j])>25,colorer<-c("#7e83bf"),colorer<-sample(colour,nlevels(data[,j])))
+            boxplot(data[,response]~data[,j],col=colorer,
+                    xlab=paste(" ",j,sep=""),ylab=paste(" ",response,sep=""),pch=19,cex=1,outcol="black")}
+        }
+      }
+    }
+  }
+}
