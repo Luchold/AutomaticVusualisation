@@ -7,7 +7,7 @@
  The function takes as parameters the database, the response variable, 
  and explanatory variables. For each explanatory variable, one graphic is drawn based on the 
  type of the explanatory variable. The function has an optional logical parameter named all,
- which is TRUE, the graphics are plotted for all variables in the database, excluding the 
+ which, if is TRUE, the graphics are plotted for all variables in the database, excluding the 
  response variable.
   
   
